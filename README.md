@@ -1,2 +1,2 @@
 # aws-backend
-Backed part of AWS course
+Back-end part of AWS course
