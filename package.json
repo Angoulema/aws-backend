@@ -1,0 +1,19 @@
+{
+  "name": "aws-backend",
+  "version": "1.0.0",
+  "description": "back-end part of the course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Angoulema/aws-backend.git"
+  },
+  "author": "Angoulema",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Angoulema/aws-backend/issues"
+  },
+  "homepage": "https://github.com/Angoulema/aws-backend#readme"
+}
