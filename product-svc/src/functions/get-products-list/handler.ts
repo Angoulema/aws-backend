@@ -1,7 +1,7 @@
-import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway';
-import { formatJSONResponse } from '@libs/api-gateway';
-import { middyfy } from '@libs/lambda';
-import { mockProducts } from 'src/services/product-service-mosk';
+import type { ValidatedEventAPIGatewayProxyEvent } from '../../libs/api-gateway';
+import { formatJSONResponse } from '../../libs/api-gateway';
+import { middyfy } from '../../libs/lambda';
+import { mockProducts } from '../../services/product-service-mock';
 
 const getProductsList: ValidatedEventAPIGatewayProxyEvent = async (_event) => {
   const productList = await mockProducts.getAllProducts();
