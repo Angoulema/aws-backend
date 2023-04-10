@@ -3,6 +3,7 @@ import { randomBytes, randomUUID } from "crypto";
 import { createPutRequests } from "../utils/create-batch-put-requests";
 import { Product } from "../types";
 import { getRandomNumber } from "../utils/generate-number-from-range";
+import logger from '../service-logger';
 
 const mapsNames = ['Ankh-Morpork', 'Discworld', 'Sto Plains'];
 
@@ -51,7 +52,7 @@ async function fillTable(tableName: string) {
 // to run: ENV_NAME=dev AWS_REGION=us-east-1 AWS_PROFILE=sandx ts-node src/scripts/fill-productTable-with-random-data.ts
 (async () => {
   const table = 'aws-course-products';
-  console.log('Start seeding product table');
+  logger.info('Start seeding product table');
   await fillTable(table);
-  console.log('Data was put');
+  logger.info('Data was put');
 })()

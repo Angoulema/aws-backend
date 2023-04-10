@@ -13,3 +13,5 @@ export interface Stock {
 }
 
 export type ProductRepresentation = Product & Omit<Stock, 'id'>;
+
+export type ProductInput = Omit<Product, 'productId'> & { quantity: number };

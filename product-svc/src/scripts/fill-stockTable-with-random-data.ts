@@ -4,6 +4,7 @@ import { Product } from "src/types";
 import { Stock } from "../types";
 import { createPutRequests } from "../utils/create-batch-put-requests";
 import { getRandomNumber } from "../utils/generate-number-from-range";
+import logger from '../service-logger';
 
 const generateStock = (ids: string[]): Stock[] => ids.map((id) => ({
   id,
@@ -40,7 +41,7 @@ async function fillTable(tableName: string) {
 // to run: ENV_NAME=dev AWS_REGION=us-east-1 AWS_PROFILE=sandx ts-node src/scripts/fill-stockTable-with-random-data.ts
 (async () => {
   const table = 'aws-course-stock';
-  console.log('Start seeding stock table');
+  logger.info('Start seeding stock table');
   await fillTable(table);
-  console.log('Data was put');
+  logger.info('Data was put');
 })()

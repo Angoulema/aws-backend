@@ -2,6 +2,7 @@ import type { AWS } from '@serverless/typescript';
 
 import getProductsList from '@functions/get-products-list';
 import getProductById from '@functions/get-product-by-id';
+import postProduct from '@functions/post-product';
 
 const serverlessConfiguration: AWS = {
   service: 'product-svc',
@@ -9,7 +10,7 @@ const serverlessConfiguration: AWS = {
   plugins: ['serverless-esbuild'],
   provider: {
     name: 'aws',
-    runtime: 'nodejs14.x',
+    runtime: 'nodejs16.x',
     profile: 'sandx',
     region: 'us-east-1',
     apiGateway: {
@@ -52,7 +53,8 @@ const serverlessConfiguration: AWS = {
   // import the function via paths
   functions: { 
     getProductsList,
-    getProductById 
+    getProductById,
+    postProduct
   },
   package: { individually: true },
   custom: {
