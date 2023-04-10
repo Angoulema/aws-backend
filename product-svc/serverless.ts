@@ -20,9 +20,40 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
     },
+    iam: {
+      role: {
+        statements: [
+          {
+            Effect: 'Allow',
+            Action: [
+              "dynamodb:BatchGetItem",
+              "dynamodb:BatchWriteItem",
+              "dynamodb:DeleteItem",
+              "dynamodb:GetItem",
+              "dynamodb:PutItem",
+              "dynamodb:Query",
+              "dynamodb:UpdateItem",
+              "dynamodb:Scan",
+              "dynamodb:DescribeTable"
+            ],
+            Resource: "arn:aws:dynamodb:us-east-1:622450868234:table/aws-course-products"
+          },
+          {
+            Effect: 'Allow',
+            Action: [
+              "dynamodb:*"
+            ],
+            Resource: "arn:aws:dynamodb:us-east-1:622450868234:table/aws-course-stock"
+          }
+        ]
+      }
+    }
   },
   // import the function via paths
-  functions: { getProductsList, getProductById },
+  functions: { 
+    getProductsList,
+    getProductById 
+  },
   package: { individually: true },
   custom: {
     esbuild: {

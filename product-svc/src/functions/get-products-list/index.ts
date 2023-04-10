@@ -11,4 +11,8 @@ export default {
       },
     },
   ],
+  environment: {
+    PRODUCT_TABLE: 'aws-course-products',
+    STOCK_TABLE: 'aws-course-stock'
+  }
 };
