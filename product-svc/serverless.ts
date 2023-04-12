@@ -2,6 +2,7 @@ import type { AWS } from '@serverless/typescript';
 
 import getProductsList from '@functions/get-products-list';
 import getProductById from '@functions/get-product-by-id';
+import postProduct from '@functions/post-product';
 
 const serverlessConfiguration: AWS = {
   service: 'product-svc',
@@ -9,7 +10,7 @@ const serverlessConfiguration: AWS = {
   plugins: ['serverless-esbuild'],
   provider: {
     name: 'aws',
-    runtime: 'nodejs14.x',
+    runtime: 'nodejs16.x',
     profile: 'sandx',
     region: 'us-east-1',
     apiGateway: {
@@ -20,9 +21,41 @@ const serverlessConfiguration: AWS = {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
     },
+    iam: {
+      role: {
+        statements: [
+          {
+            Effect: 'Allow',
+            Action: [
+              "dynamodb:BatchGetItem",
+              "dynamodb:BatchWriteItem",
+              "dynamodb:DeleteItem",
+              "dynamodb:GetItem",
+              "dynamodb:PutItem",
+              "dynamodb:Query",
+              "dynamodb:UpdateItem",
+              "dynamodb:Scan",
+              "dynamodb:DescribeTable"
+            ],
+            Resource: "arn:aws:dynamodb:us-east-1:622450868234:table/aws-course-products"
+          },
+          {
+            Effect: 'Allow',
+            Action: [
+              "dynamodb:*"
+            ],
+            Resource: "arn:aws:dynamodb:us-east-1:622450868234:table/aws-course-stock"
+          }
+        ]
+      }
+    }
   },
   // import the function via paths
-  functions: { getProductsList, getProductById },
+  functions: { 
+    getProductsList,
+    getProductById,
+    postProduct
+  },
   package: { individually: true },
   custom: {
     esbuild: {

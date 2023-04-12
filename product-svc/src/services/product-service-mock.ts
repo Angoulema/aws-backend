@@ -1,6 +1,7 @@
+import { getRandomNumber } from '../utils/generate-number-from-range';
 import { Product } from '../types';
 
-const generateRendomPrice = () => Math.floor(Math.random() * 41) + 10;
+const generateRandomPrice = () => getRandomNumber(10, 60);
 const generateMockData = (): Product[] => {
   const mapsNames = [
     { name: 'Ankh-Morpork Map', id: 'M-DCW001'},
@@ -21,14 +22,14 @@ const generateMockData = (): Product[] => {
     productId: item.id,
     productName: item.name,
     productType: 'Map',
-    price: generateRendomPrice(),
+    price: generateRandomPrice(),
     currency: 'GBP'
   }));
   const bookData = booksNames.map((item) => ({
     productId: item.id,
     productName: item.name,
     productType: 'Book',
-    price: generateRendomPrice(),
+    price: generateRandomPrice(),
     currency: 'GBP'
   }))
 

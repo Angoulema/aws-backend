@@ -1,7 +1,7 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "version" : "2023-04-03T13:11:02Z",
+    "version" : "2023-04-10T16:20:48Z",
     "title" : "product-svc-dev"
   },
   "host" : "wyi5kq8zq2.execute-api.us-east-1.amazonaws.com",
@@ -15,6 +15,25 @@
           "type" : "aws_proxy",
           "httpMethod" : "POST",
           "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:622450868234:function:product-svc-dev-getProductsList/invocations",
+          "passthroughBehavior" : "when_no_match"
+        }
+      },
+      "post" : {
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "producApiGaBDh8JS54mbkk",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/producApiGaBDh8JS54mbkk"
+          }
+        } ],
+        "responses" : { },
+        "x-amazon-apigateway-request-validator" : "product-svc-dev | Validate request body and querystring parameters",
+        "x-amazon-apigateway-integration" : {
+          "type" : "aws_proxy",
+          "httpMethod" : "POST",
+          "uri" : "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:622450868234:function:product-svc-dev-postProduct/invocations",
           "passthroughBehavior" : "when_no_match"
         }
       },
@@ -43,7 +62,7 @@
             "default" : {
               "statusCode" : "200",
               "responseParameters" : {
-                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,GET'",
+                "method.response.header.Access-Control-Allow-Methods" : "'OPTIONS,POST,GET'",
                 "method.response.header.Access-Control-Allow-Headers" : "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
                 "method.response.header.Access-Control-Allow-Origin" : "'*'"
               }
@@ -117,6 +136,37 @@
           "contentHandling" : "CONVERT_TO_TEXT"
         }
       }
+    }
+  },
+  "definitions" : {
+    "producApiGaBDh8JS54mbkk" : {
+      "type" : "object",
+      "properties" : {
+        "quantity" : {
+          "type" : "number"
+        },
+        "price" : {
+          "type" : "number"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "currency" : {
+          "type" : "string"
+        },
+        "productName" : {
+          "type" : "string"
+        },
+        "productType" : {
+          "type" : "string"
+        }
+      }
+    }
+  },
+  "x-amazon-apigateway-request-validators" : {
+    "product-svc-dev | Validate request body and querystring parameters" : {
+      "validateRequestParameters" : true,
+      "validateRequestBody" : true
     }
   },
   "x-amazon-apigateway-minimum-compression-size" : 1024
