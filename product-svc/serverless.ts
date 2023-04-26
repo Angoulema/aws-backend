@@ -3,6 +3,7 @@ import type { AWS } from '@serverless/typescript';
 import getProductsList from '@functions/get-products-list';
 import getProductById from '@functions/get-product-by-id';
 import postProduct from '@functions/post-product';
+import catalogueBatchProcess from '@functions/catalogue-batch-process.ts';
 
 const serverlessConfiguration: AWS = {
   service: 'product-svc',
@@ -54,9 +55,20 @@ const serverlessConfiguration: AWS = {
   functions: { 
     getProductsList,
     getProductById,
-    postProduct
+    postProduct,
+    catalogueBatchProcess
   },
   package: { individually: true },
+  resources: {
+    Resources: {
+      'catalogItems': {
+        Type: 'AWS::SQS::Queue',
+        Properties: {
+          QueueName: 'catalogItems'
+        }
+      }
+    }
+  },
   custom: {
     esbuild: {
       bundle: true,
