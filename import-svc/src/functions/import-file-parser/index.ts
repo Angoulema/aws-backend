@@ -13,5 +13,9 @@ export default {
         existing: true
       },
     },
-  ]
+  ],
+  environment: {
+    REGION: 'us-east-1',
+    ACCOUNT: '622450868234'
+  }
 };
