@@ -13,6 +13,8 @@ export default {
   ],
   environment: {
     PRODUCT_TABLE: 'aws-course-products',
-    STOCK_TABLE: 'aws-course-stock'
+    STOCK_TABLE: 'aws-course-stock',
+    REGION: 'us-east-1',
+    ACCOUNT: '622450868234'
   }
 };

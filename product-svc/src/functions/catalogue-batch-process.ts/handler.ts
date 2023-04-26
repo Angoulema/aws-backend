@@ -3,6 +3,9 @@ import logger from '../../service-logger';
 import { ProductService } from "../../services/product-service";
 import { ProductInput } from "../../types";
 import { eventToDynamoMapping } from "../../constants";
+import { SNSservice } from "../../services/sns-service";
+
+const TOPIC_NAME = 'createProductTopic';
 
 const validateSqsEvent = (event: SQSEvent) => {
   if (!event.Records.length) {
@@ -12,23 +15,22 @@ const validateSqsEvent = (event: SQSEvent) => {
 }
 
   const catalogueBatchProcess = async (event: SQSEvent): Promise<void> => {
-    logger.info(event, 'Incoming event');
     try {
       const validatedEvent = validateSqsEvent(event);
-      const service = new ProductService();
+      const productService = new ProductService();
+      const snsService = new SNSservice();
       for (const record of validatedEvent.Records) {
         const body = JSON.parse(record.body);
-        logger.info({ body }, 'Incoming body from message');
         const bodyRemapped: ProductInput = Object.keys(body).reduce((acc, key) => {
           const cleanKey = key.replace('\ufeff', '');
           const newKey = eventToDynamoMapping[cleanKey];
           acc[newKey] = body[key];
           return acc;
         }, {} as ProductInput);
-        logger.info({ bodyRemapped }, 'Remapped body of event');
-        await service.addProductRepresentation(bodyRemapped);
+        await productService.addProductRepresentation(bodyRemapped);
+        await snsService.sendMessage('Product was added', TOPIC_NAME);
       }
-      logger.info({ messagesProcessed: event.Records.length }, 'Lambda successfully finished');
+      logger.info({ messagesProcessed: event.Records.length }, 'Lambda successfully finished, notifications sent');
     } catch (err) {
       logger.error(err, 'Lambda finished with as error');
       throw err;

@@ -46,6 +46,13 @@ const serverlessConfiguration: AWS = {
               "dynamodb:*"
             ],
             Resource: "arn:aws:dynamodb:us-east-1:622450868234:table/aws-course-stock"
+          },
+          {
+            Effect: 'Allow',
+            Action: [
+              'sns:Publish'
+            ], 
+            Resource: 'arn:aws:sns:us-east-1:622450868234:createProductTopic'
           }
         ]
       }
@@ -65,6 +72,22 @@ const serverlessConfiguration: AWS = {
         Type: 'AWS::SQS::Queue',
         Properties: {
           QueueName: 'catalogItems'
+        }
+      },
+      'createProductTopic': {
+        Type: 'AWS::SNS::Topic',
+        Properties: {
+          TopicName: 'createProductTopic'
+        }
+      },
+      'SNSSubscription': {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          TopicArn: {
+            "Ref": "createProductTopic"
+          },
+          Endpoint: 'evgeniya_labokha@epam.com',
+          Protocol: 'email'
         }
       }
     }
