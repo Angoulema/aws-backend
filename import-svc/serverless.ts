@@ -29,6 +29,14 @@ const serverlessConfiguration: AWS = {
               's3:*'
             ],
             Resource: 'arn:aws:s3:::import-data-storage/*'
+          },
+          {
+            Effect: 'Allow',
+            Action: [
+              'sqs:SendMessage',
+              'sqs:GetQueueUrl'
+            ],
+            Resource: 'arn:aws:sqs:us-east-1:622450868234:catalogItems'
           }
         ]
       }

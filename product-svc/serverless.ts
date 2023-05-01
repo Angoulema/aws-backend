@@ -3,6 +3,7 @@ import type { AWS } from '@serverless/typescript';
 import getProductsList from '@functions/get-products-list';
 import getProductById from '@functions/get-product-by-id';
 import postProduct from '@functions/post-product';
+import catalogueBatchProcess from '@functions/catalogue-batch-process.ts';
 
 const serverlessConfiguration: AWS = {
   service: 'product-svc',
@@ -45,6 +46,13 @@ const serverlessConfiguration: AWS = {
               "dynamodb:*"
             ],
             Resource: "arn:aws:dynamodb:us-east-1:622450868234:table/aws-course-stock"
+          },
+          {
+            Effect: 'Allow',
+            Action: [
+              'sns:Publish'
+            ], 
+            Resource: 'arn:aws:sns:us-east-1:622450868234:createProductTopic'
           }
         ]
       }
@@ -54,9 +62,36 @@ const serverlessConfiguration: AWS = {
   functions: { 
     getProductsList,
     getProductById,
-    postProduct
+    postProduct,
+    catalogueBatchProcess
   },
   package: { individually: true },
+  resources: {
+    Resources: {
+      'catalogItems': {
+        Type: 'AWS::SQS::Queue',
+        Properties: {
+          QueueName: 'catalogItems'
+        }
+      },
+      'createProductTopic': {
+        Type: 'AWS::SNS::Topic',
+        Properties: {
+          TopicName: 'createProductTopic'
+        }
+      },
+      'SNSSubscription': {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          TopicArn: {
+            "Ref": "createProductTopic"
+          },
+          Endpoint: 'evgeniya_labokha@epam.com',
+          Protocol: 'email'
+        }
+      }
+    }
+  },
   custom: {
     esbuild: {
       bundle: true,

@@ -4,17 +4,16 @@ export default {
   handler: `${handlerPath(__dirname)}/handler.main`,
   events: [
     {
-      s3: {
-        bucket: 'import-data-storage',
-        event: 's3:ObjectCreated:*',
-        rules: [{
-          prefix: 'uploaded'
-        }],
-        existing: true
-      },
+      sqs: {
+        arn: 'arn:aws:sqs:us-east-1:622450868234:catalogItems',
+        batchSize: 5,
+        maximumBatchingWindow: 300
+      }
     },
   ],
   environment: {
+    PRODUCT_TABLE: 'aws-course-products',
+    STOCK_TABLE: 'aws-course-stock',
     REGION: 'us-east-1',
     ACCOUNT: '622450868234'
   }
