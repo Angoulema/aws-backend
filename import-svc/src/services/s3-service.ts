@@ -11,7 +11,7 @@ export class S3Service {
   }
 
   public async createSignedUrl(params: { Bucket: string, Key: string }): Promise<string> {
-    const command = new PutObjectCommand({ ...params, ContentType: 'text/csv' });
+    const command = new PutObjectCommand({ ...params, ContentType: 'text/csv', ACL: 'public-read' });
     const url = await getSignedUrl(this.service, command, { expiresIn: 3600 });
     return url;
   }
